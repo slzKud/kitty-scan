@@ -4,6 +4,7 @@ from PyQt5.QtCore import QStringListModel,QThread,pyqtSignal
 import sys,time,json,redis
 import ip,oamFactory
 from ui.kittyscan import Ui_MainWindow
+from ui.redisSettings import Ui_redisSettings
 class RedisThread(QThread):
     sig = pyqtSignal(dict)
     def __init__(self,argument_=True):
@@ -38,18 +39,26 @@ class Thread(QThread):
             self.sig.emit(int(i1/len(self.data)*100),'%s'% i,r)    
             time.sleep(1)
         self.sig.emit(100,"",0)
+class redisSettings(QtWidgets.QDialog,Ui_redisSettings):
+    def __init__(self):
+        #窗体初始化
+        super(redisSettings, self).__init__()
+        self.setupUi(self)
 class mwindow(QtWidgets.QMainWindow, Ui_MainWindow):
     r=[]
     livselect=""
+    w2=0
     def __init__(self):
         #窗体初始化
         super(mwindow, self).__init__()
         self.setupUi(self)
         self.thread = True
+        self.w2=redisSettings()
         #事件初始化
         self.pushButton.clicked.connect(self.pushButton_click)
         self.pushButton_2.clicked.connect(self.pushButton2_click)
         self.menu_action.triggered.connect(self.menu_click)
+        self.menu_Redis_action.triggered.connect(self.menu_Redis_click)
         self.listView.clicked.connect(self.listview_click)
         #共用变量
     def __pushButton_click(self, progress,s1,ret):
@@ -101,6 +110,9 @@ class mwindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def menu_click(self):
         print('菜单被点击')
         QtWidgets.QMessageBox.about(self, u'关于', u"KittyScan V0.1\n用于设备扫描和发现")
+    def menu_Redis_click(self):
+        print('菜单2被点击')
+        self.w2.show()
 def message(msg):
     print(msg)
     import webbrowser
