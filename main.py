@@ -63,7 +63,7 @@ class redisSettings(QtWidgets.QDialog,Ui_redisSettings):
         db.insertVar(db.fastOpenDb(),"redisDBNo",self.lineEdit_3.text())
         db.insertVar(db.fastOpenDb(),"redisPassword",self.lineEdit_4.text())
         db.insertVar(db.fastOpenDb(),"redisUrl",self.lineEdit_5.text())
-        QtWidgets.QMessageBox.about(self, u'提示', u"数据库设置完成！")
+        QtWidgets.QMessageBox.about(self, u'提示', u"数据库设置完成，请重新打开软件以生效！")
         return super().accept()
     def reject(self):
         print('点击Cancel')
